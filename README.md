@@ -12,4 +12,4 @@ If this folder does not contain platform folders yet, run `flutter create .` onc
 
 ## Mood
 
-I hate flutter HAHA
+I hate flutter 
