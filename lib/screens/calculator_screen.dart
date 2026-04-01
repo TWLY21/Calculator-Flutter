@@ -52,16 +52,21 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
-            final double buttonAreaHeight = constraints.maxHeight * 0.62;
+            final bool compact = constraints.maxHeight < 700;
+            final int displayFlex = compact ? 3 : 4;
+            final int buttonsFlex = compact ? 7 : 6;
 
             return Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: <Widget>[
-                  Expanded(child: _buildDisplayCard(context)),
+                  Expanded(
+                    flex: displayFlex,
+                    child: _buildDisplayCard(context),
+                  ),
                   const SizedBox(height: 14),
-                  SizedBox(
-                    height: buttonAreaHeight,
+                  Expanded(
+                    flex: buttonsFlex,
                     child: _buildButtonGrid(),
                   ),
                 ],
@@ -81,41 +86,49 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            SingleChildScrollView(
-              reverse: true,
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                _expression.isEmpty ? '0' : _expression,
-                maxLines: 1,
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w500,
-                  color: scheme.onSurfaceVariant,
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Align(
-              alignment: Alignment.centerRight,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                alignment: Alignment.centerRight,
-                child: Text(
-                  _result,
-                  maxLines: 1,
-                  style: TextStyle(
-                    fontSize: 54,
-                    fontWeight: FontWeight.w700,
-                    color: scheme.onSurface,
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            final bool compactDisplay = constraints.maxHeight < 160;
+            final double expressionFont = compactDisplay ? 22 : 28;
+            final double resultFont = compactDisplay ? 38 : 54;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                SingleChildScrollView(
+                  reverse: true,
+                  scrollDirection: Axis.horizontal,
+                  child: Text(
+                    _expression.isEmpty ? '0' : _expression,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: expressionFont,
+                      fontWeight: FontWeight.w500,
+                      color: scheme.onSurfaceVariant,
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
+                const SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      _result,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: resultFont,
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

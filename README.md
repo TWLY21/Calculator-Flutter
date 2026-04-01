@@ -10,3 +10,6 @@ A clean and responsive calculator app built with Flutter and Dart.
 
 If this folder does not contain platform folders yet, run `flutter create .` once, then run the commands above.
 
+## Mood
+
+I hate flutter HAHA

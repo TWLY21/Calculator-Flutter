@@ -55,7 +55,7 @@ class CalculatorLogic {
     }
 
     if (last == '.') {
-      return expression + '0' + operator;
+      return '${expression}0$operator';
     }
 
     return expression + operator;
@@ -69,7 +69,7 @@ class CalculatorLogic {
     final String last = expression[expression.length - 1];
 
     if (_isOperator(last)) {
-      return expression + '0.';
+      return '${expression}0.';
     }
 
     final String currentNumber = _currentNumber(expression);
@@ -78,7 +78,7 @@ class CalculatorLogic {
       return expression;
     }
 
-    return expression + '.';
+    return '$expression.';
   }
 
   static String backspace(String expression) {
